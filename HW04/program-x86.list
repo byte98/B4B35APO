@@ -1,0 +1,82 @@
+
+program code
+
+
+build/program-x86:     file format elf32-i386
+
+
+Disassembly of section my_text:
+
+080bbab4 <subroutine_fnc>:
+ 80bbab4:	53                   	push   %ebx
+ 80bbab5:	83 ec 10             	sub    $0x10,%esp
+ 80bbab8:	8d 4c 24 0f          	lea    0xf(%esp),%ecx
+ 80bbabc:	ba 01 00 00 00       	mov    $0x1,%edx
+ 80bbac1:	8b 5c 24 18          	mov    0x18(%esp),%ebx
+ 80bbac5:	b8 03 00 00 00       	mov    $0x3,%eax
+ 80bbaca:	cd 80                	int    $0x80
+ 80bbacc:	85 c0                	test   %eax,%eax
+ 80bbace:	78 16                	js     80bbae6 <subroutine_fnc+0x32>
+ 80bbad0:	ba 00 00 00 00       	mov    $0x0,%edx
+ 80bbad5:	85 c0                	test   %eax,%eax
+ 80bbad7:	74 05                	je     80bbade <subroutine_fnc+0x2a>
+ 80bbad9:	0f b6 54 24 0f       	movzbl 0xf(%esp),%edx
+ 80bbade:	0f be c2             	movsbl %dl,%eax
+ 80bbae1:	83 c4 10             	add    $0x10,%esp
+ 80bbae4:	5b                   	pop    %ebx
+ 80bbae5:	c3                   	ret    
+ 80bbae6:	bb 01 00 00 00       	mov    $0x1,%ebx
+ 80bbaeb:	b8 01 00 00 00       	mov    $0x1,%eax
+ 80bbaf0:	cd 80                	int    $0x80
+ 80bbaf2:	eb e5                	jmp    80bbad9 <subroutine_fnc+0x25>
+
+080bbaf4 <toplevel_fnc>:
+ 80bbaf4:	57                   	push   %edi
+ 80bbaf5:	56                   	push   %esi
+ 80bbaf6:	53                   	push   %ebx
+ 80bbaf7:	83 ec 10             	sub    $0x10,%esp
+ 80bbafa:	bf 00 00 00 00       	mov    $0x0,%edi
+ 80bbaff:	bb 01 00 00 00       	mov    $0x1,%ebx
+ 80bbb04:	8d 74 24 0f          	lea    0xf(%esp),%esi
+ 80bbb08:	eb 18                	jmp    80bbb22 <toplevel_fnc+0x2e>
+ 80bbb0a:	83 c7 01             	add    $0x1,%edi
+ 80bbb0d:	ba 02 00 00 00       	mov    $0x2,%edx
+ 80bbb12:	b9 a0 bf 0e 08       	mov    $0x80ebfa0,%ecx
+ 80bbb17:	b8 04 00 00 00       	mov    $0x4,%eax
+ 80bbb1c:	cd 80                	int    $0x80
+ 80bbb1e:	85 c0                	test   %eax,%eax
+ 80bbb20:	78 2e                	js     80bbb50 <toplevel_fnc+0x5c>
+ 80bbb22:	6a 00                	push   $0x0
+ 80bbb24:	e8 8b ff ff ff       	call   80bbab4 <subroutine_fnc>
+ 80bbb29:	88 44 24 13          	mov    %al,0x13(%esp)
+ 80bbb2d:	83 c4 04             	add    $0x4,%esp
+ 80bbb30:	84 c0                	test   %al,%al
+ 80bbb32:	7e 25                	jle    80bbb59 <toplevel_fnc+0x65>
+ 80bbb34:	3c 5c                	cmp    $0x5c,%al
+ 80bbb36:	74 d2                	je     80bbb0a <toplevel_fnc+0x16>
+ 80bbb38:	89 f1                	mov    %esi,%ecx
+ 80bbb3a:	89 da                	mov    %ebx,%edx
+ 80bbb3c:	b8 04 00 00 00       	mov    $0x4,%eax
+ 80bbb41:	cd 80                	int    $0x80
+ 80bbb43:	85 c0                	test   %eax,%eax
+ 80bbb45:	79 db                	jns    80bbb22 <toplevel_fnc+0x2e>
+ 80bbb47:	b8 01 00 00 00       	mov    $0x1,%eax
+ 80bbb4c:	cd 80                	int    $0x80
+ 80bbb4e:	eb d2                	jmp    80bbb22 <toplevel_fnc+0x2e>
+ 80bbb50:	b8 01 00 00 00       	mov    $0x1,%eax
+ 80bbb55:	cd 80                	int    $0x80
+ 80bbb57:	eb c9                	jmp    80bbb22 <toplevel_fnc+0x2e>
+ 80bbb59:	89 f8                	mov    %edi,%eax
+ 80bbb5b:	83 c4 10             	add    $0x10,%esp
+ 80bbb5e:	5b                   	pop    %ebx
+ 80bbb5f:	5e                   	pop    %esi
+ 80bbb60:	5f                   	pop    %edi
+ 80bbb61:	c3                   	ret    
+
+program data
+
+
+build/program-x86:     file format elf32-i386
+
+Contents of section my_data:
+ 80ebfa0 5c5c00                               \\.             

@@ -97,10 +97,10 @@ int main(int argc, char *argv[])
 		writeString(s_value, 100, 50, getColourFromRGB(0, 240, 0), getColourFromRGB(255, 50, 50), &font_wArial_44, 2, &LCD);
 		sprintf(s_value, "%d", green_val);
 		writeString(s_value, 150, 50, getColourFromRGB(0, 240, 0), getColourFromRGB(50, 255, 50), &font_wArial_44, 2, &LCD);
-		int diode_radius = 50;
-		drawCircle(LCD.width - diode_radius - 5, (LCD.height - diode_radius) / 2, diode_radius, getColourFromRGB(255, 255, 0), &LCD);
-		drawCircle_line(LCD.width - diode_radius - 5, (LCD.height - diode_radius) / 2, diode_radius, 10, getColourFromRGB(0, 0, 0), &LCD);
-		drawGradient(20, 20, 100, 20, getColourFromRGB(255, 0, 0), getColourFromRGB(0, 255, 0), &LCD);
+		int diode_radius = 65;
+		drawCircle(LCD.width - diode_radius - 5, (LCD.height - diode_radius) / 2, diode_radius, getColourFromRGB(red_val, green_val, blue_val), &LCD);
+		drawCircle_line(LCD.width - diode_radius - 5, (LCD.height - diode_radius) / 2, diode_radius, 3, getColourFromRGB(0, 0, 0), &LCD);
+		//drawGradient(20, 20, 100, 20, getColourFromRGB(255, 0, 0), getColourFromRGB(0, 255, 0), &LCD);
 
 		free(time);
 		free(date);

@@ -1,0 +1,7 @@
+:root{
+    --warning-foreground: rgb(216, 165, 3);
+    --warning-background: rgb(250, 239, 211);
+
+    --info-foreground: rgb(0, 95, 164);
+    --info-background: rgb(176, 219, 251);
+}

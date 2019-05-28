@@ -2,14 +2,14 @@ CC = arm-linux-gnueabihf-gcc
 CXX = arm-linux-gnueabihf-g++
 
 CPPFLAGS = -I .
-CFLAGS =-g -std=gnu99 -O1 -Wall -lm
-CXXFLAGS = -g -std=gnu++11 -O1 -Wall -lm
+CFLAGS =-g -std=gnu99 -O1 -Wall
+CXXFLAGS = -g -std=gnu++11 -O1 -Wall
 LDFLAGS = -lrt -lpthread
 
-SOURCES = skodaj-semestral.c mzapo_phys.c mzapo_parlcd.c
-SOURCES += font_prop14x16.c font_rom8x16.c wArial_44.c
-TARGET_EXE = skodaj-semestral
-TARGET_IP ?= 192.168.202.212
+SOURCES = main.c mzapo_phys.c mzapo_parlcd.c
+SOURCES += font_prop14x16.c font_rom8x16.c wArial_44.c wArial_22.c
+TARGET_EXE = skodaj
+TARGET_IP ?= 192.168.202.210
 ifeq ($(TARGET_IP)$(filter run,$(MAKECMDGOALS)),run)
 $(warning The target IP address is not set)
 $(warning Run as "TARGET_IP=192.168.202.xxx make run" or modify Makefile)
@@ -19,8 +19,6 @@ TARGET_DIR ?= /tmp/$(shell whoami)
 TARGET_USER ?= root
 # for use from Eduroam network use TARGET_IP=localhost and enable next line
 #SSH_OPTIONS=-o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "Port=2222"
-
-SSH_OPTIONS += -i ~/.ssh/mzapo-root-key
 
 OBJECTS += $(filter %.o,$(SOURCES:%.c=%.o))
 OBJECTS += $(filter %.o,$(SOURCES:%.cpp=%.o))
@@ -44,7 +42,7 @@ endif
 all: $(TARGET_EXE)
 
 $(TARGET_EXE): $(OBJECTS)
-	$(LINKER) $(LDFLAGS) -lm -L. $^ -o $@
+	$(LINKER) $(LDFLAGS) -L. $^ -o $@ -lm
 
 .PHONY : dep all run copy-executable debug
 

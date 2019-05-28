@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+div#title{
+    width: 100vw;
+    text-align: center;
+    border-bottom: 1px solid black;
+    font-family: "Segoe UI, sans-serif";
+}
+
+span.alert{
+    margin: 5px;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+span.alert.warning{
+    background-color: var(--warning-background);
+    color: var(--warning-foreground);
+}
+
+span.alert.info, span.alert.info a{
+    background-color: var(--info-background);
+    color: var(--info-foreground);
+}

@@ -1,0 +1,113 @@
+
+program code
+
+
+build/program-mips:     file format elf32-tradbigmips
+
+
+Disassembly of section my_text:
+
+00404fc0 <subroutine_fnc>:
+  404fc0:	27bdfff0 	addiu	sp,sp,-16							#sp = sp - 16
+  404fc4:	27a50008 	addiu	a1,sp,8								#a1 = sp + 8
+  404fc8:	24060001 	li	a2,1									#a2 = 1
+
+  404fcc:	24020fa3 	li	v0,4003									#v0 = 4003
+  404fd0:	0000000c 	syscall										#SYSCALL READ ("access data from device(file)")
+
+  404fd4:	14e00007 	bnez	a3,404ff4 <subroutine_fnc+0x34>		#if (a3 != 0) then <subroutine_fnc+0x34>
+  404fd8:	00000000 	nop											#(nothing)
+  404fdc:	04400005 	bltz	v0,404ff4 <subroutine_fnc+0x34>		#if (v0 < 0) then <subroutine_fnc+0x34>
+  404fe0:	00000000 	nop											#(nothing)
+  404fe4:	14400006 	bnez	v0,405000 <subroutine_fnc+0x40>		#if(v0 != 0) then <subroutine_fnc+0x40>
+  404fe8:	00001025 	move	v0,zero								#v0 = 0
+  404fec:	10000005 	b	405004 <subroutine_fnc+0x44>			#goto 405004 <subroutine_fnc+0x44>
+  404ff0:	00000000 	nop											#(nothing)
+  
+  # (subroutine_fnc+0x34 = 404ff4)
+  404ff4:	24040001 	li	a0,1									#a0 = 1
+
+  404ff8:	24020fa1 	li	v0,4001									#v0 = 4001
+  404ffc:	0000000c 	syscall										#SYSCALL EXIT ("exits program")
+
+
+  # (subroutine_fnc+0x40 = 405000)
+  405000:	83a20008 	lb	v0,8(sp)								#v0 = Memory[sp + 8]
+  405004:	03e00008 	jr	ra										#goto (address in register ra)
+  405008:	27bd0010 	addiu	sp,sp,16							#sp = sp + 16
+
+0040500c <toplevel_fnc>:
+  40500c:	27bdffc8 	addiu	sp,sp,-56							#sp = sp - 56
+  405010:	afbf0034 	sw	ra,52(sp)								#Memory[sp + 52] = ra
+  405014:	afb30030 	sw	s3,48(sp)								#Memory[sp + 48] = s3
+  405018:	afb2002c 	sw	s2,44(sp)								#Memory[sp + 44] = s2
+  40501c:	afb10028 	sw	s1,40(sp)								#Memory[sp + 40] = s1
+  405020:	afb00024 	sw	s0,36(sp)								#Memory[sp + 36] = s0
+  405024:	00009025 	move	s2,zero								#s2 = zero
+  405028:	2410005c 	li	s0,92									#s0 = 92
+  40502c:	27b10018 	addiu	s1,sp,24							#s1 = sp + 24
+  405030:	3c130041 	lui	s3,0x41									#s3 = (0x41 << 16)
+  405034:	10000010 	b	405078 <toplevel_fnc+0x6c>				#goto 405078 <toplevel_fnc+0x6c>
+  405038:	267360f0 	addiu	s3,s3,24816							#s3 = s3 + 24816
+  40503c:	26520001 	addiu	s2,s2,1								#s2 = s2 + 1
+  405040:	02602825 	move	a1,s3								#a1 = s3
+  405044:	24060002 	li	a2,2									#a2 = 2
+
+  405048:	24020fa4 	li	v0,4004									#v0 = 4004
+  40504c:	0000000c 	syscall										#SYSCALL WRITE("write buffer to device(file)")
+
+
+  405050:	14e00003 	bnez	a3,405060 <toplevel_fnc+0x54>		#if(v0 != 0) then <toplevel_fnc+0x54>
+  405054:	24040001 	li	a0,1									#a0 = 1
+  405058:	04410007 	bgez	v0,405078 <toplevel_fnc+0x6c>		#if(v0 >= 0) then <toplevel_fnc+0x6c>
+  40505c:	00000000 	nop											#(nothing)
+
+  405060:	24020fa1 	li	v0,4001									#v0 = 4001
+  405064:	0000000c 	syscall										#SYSCALL EXIT ("exits program")
+
+  405068:	10000004 	b	40507c <toplevel_fnc+0x70>				#goto 40507c <toplevel_fnc+0x70>
+  40506c:	00002025 	move	a0,zero								#a0 = zero
+
+
+  405070:	24020fa1 	li	v0,4001									#v0 = 4001
+  405074:	0000000c 	syscall										#SYSCALL EXIT ("exits program")
+  
+  #(toplevel_fnc + 0x6c = 405078)
+  405078:	00002025 	move	a0,zero								#a0 = zero
+  40507c:	0c1013f0 	jal	404fc0 <subroutine_fnc>					#jump to 404fc0 <subroutine_fnc> and store return address to ra
+  405080:	00000000 	nop											#(nothing)
+  405084:	00021600 	sll	v0,v0,0x18								#v0 = v0 << 0x18
+  405088:	00021603 	sra	v0,v0,0x18								#v0 = v0 >> 0x18
+  40508c:	1840000d 	blez	v0,4050c4 <toplevel_fnc+0xb8>		#if (v0 <= 0) then 4050c4 <toplevel_fnc+0xb8>
+  405090:	a3a20018 	sb	v0,24(sp)								#Memory[sp + 24] = (0xff & v0)
+  405094:	1050ffe9 	beq	v0,s0,40503c <toplevel_fnc+0x30>		#if (v0 == s0) then 40503c <toplevel_fnc+0x30>
+  405098:	24040001 	li	a0,1									#a0 = 1
+  40509c:	02202825 	move	a1,s1								#a1 = s1
+  4050a0:	24060001 	li	a2,1									#a2 = 1
+
+  4050a4:	24020fa4 	li	v0,4004									#v0 = 4004
+  4050a8:	0000000c 	syscall										#SYSCALL EXIT ("exits program")
+
+
+  4050ac:	14e0fff0 	bnez	a3,405070 <toplevel_fnc+0x64>		#if (a3 != 0) then 405070 <toplevel_fnc+0x64>
+  4050b0:	24040001 	li	a0,1									#a0 = 1
+  4050b4:	0441fff0 	bgez	v0,405078 <toplevel_fnc+0x6c>		#if(v0 >= 0) then 405078 <toplevel_fnc+0x6c>
+  4050b8:	00000000 	nop											#(nothing)
+  4050bc:	1000ffec 	b	405070 <toplevel_fnc+0x64>				#goto 405070 <toplevel_fnc+0x64>
+  4050c0:	00000000 	nop											#(nothing)
+  4050c4:	02401025 	move	v0,s2								#v0 = s2
+  4050c8:	8fbf0034 	lw	ra,52(sp)								#ra = Memory[sp + 52]
+  4050cc:	8fb30030 	lw	s3,48(sp)								#s3 = Memory[sp + 48]
+  4050d0:	8fb2002c 	lw	s2,44(sp)								#s2 = Memory[sp + 44]
+  4050d4:	8fb10028 	lw	s1,40(sp)								#s1 = Memory[sp + 40]
+  4050d8:	8fb00024 	lw	s0,36(sp)								#s0 = Memory[sp + 36]
+  4050dc:	03e00008 	jr	ra										#goto (address in register ra)
+  4050e0:	27bd0038 	addiu	sp,sp,56							#sp = sp + 56
+
+program data
+
+
+build/program-mips:     file format elf32-tradbigmips
+
+Contents of section my_data:
+ 4160f0 5c5c0000                             \\..            
