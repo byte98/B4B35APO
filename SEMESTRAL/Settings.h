@@ -38,7 +38,7 @@ void drawSettings(display_t *display, uint16_t background, uint16_t foreground, 
 				display->data[r][c] = background;
 			}
 		}
-		sleep(1);
+		delay(SYS_INPUT_DELAY);
 		return;
 	}
 	else if ((value >> 26) == 1 && selected_setting == 0)
@@ -51,7 +51,7 @@ void drawSettings(display_t *display, uint16_t background, uint16_t foreground, 
 			}
 		}
 		displayed = TEXT_SETTINGS;
-		sleep(1);
+		delay(SYS_INPUT_DELAY);
 		return;
 	}
 	else if ((value >> 26) == 1 && selected_setting == 1)
@@ -64,7 +64,7 @@ void drawSettings(display_t *display, uint16_t background, uint16_t foreground, 
 			}
 		}
 		displayed = BRIGHT_SETTINGS;
-		sleep(1);
+		delay(SYS_INPUT_DELAY);
 		return;
 	}
 	else if ((value >> 26) == 1 && selected_setting == 2)
@@ -77,7 +77,7 @@ void drawSettings(display_t *display, uint16_t background, uint16_t foreground, 
 			}
 		}
 		displayed = REMOTE_SETTINGS;
-		sleep(1);
+		delay(SYS_INPUT_DELAY);
 		return;
 	}
 
@@ -157,6 +157,7 @@ void drawTextSettings(display_t *display, uint16_t background, uint16_t foregrou
 				display->data[r][c] = background;
 			}
 		}
+		delay(SYS_INPUT_DELAY);
 		return;
 	}
 	else if ((value >> 26) == 1)
@@ -170,6 +171,7 @@ void drawTextSettings(display_t *display, uint16_t background, uint16_t foregrou
 		}
 		default_font = (selected_txt == 0 ? font_winFreeSystem14x16 : font_wArial_44);
 		displayed = SETTINGS;
+		delay(SYS_INPUT_DELAY);
 		return;
 	}
 }
@@ -203,6 +205,7 @@ void drawBrightSettings(display_t *display, uint16_t background, uint16_t foregr
 	if ((value >> 25) == 1)
 	{
 		displayed = SETTINGS;
+		delay(SYS_INPUT_DELAY);
 		for (int r = 0; r < display->height; r++)
 		{
 			for (int c = 0; c < display->width; c++)
@@ -241,11 +244,12 @@ drawCircle(10, display->height - 20, 7, getColourFromRGB(255, 0, 0), display);
 	writeString("Allowed", 100, 10, (selected_remote == 0 ? default_foreground : default_background), (selected_remote == 0 ? default_background : default_foreground), &default_font, 2, display);
 	writeString("Denied", 150, 10, (selected_remote == 1 ? default_foreground : default_background), (selected_remote == 1 ? default_background : default_foreground), &default_font, 2, display);
 	writeString("Remote control is available on:", display->height - 100, 10, background, foreground, &font_winFreeSystem14x16, 1, display);
-	writeString("https://cvut.skodaj.cz/apo/", display->height - 65, 10, background, foreground, &font_winFreeSystem14x16, 1, display);
+	writeString(RC_SERVER_DISPLAY, display->height - 65, 10, background, foreground, &font_winFreeSystem14x16, 1, display);
 
 	if ((value >> 25) == 1)
 	{
 		displayed = SETTINGS;
+		delay(SYS_INPUT_DELAY);
 		for (int r = 0; r < display->height; r++)
 		{
 			for (int c = 0; c < display->width; c++)
@@ -259,6 +263,7 @@ drawCircle(10, display->height - 20, 7, getColourFromRGB(255, 0, 0), display);
 	{
 		remote_allowed = 1;
 		displayed = SETTINGS;
+		delay(SYS_INPUT_DELAY);
 		for (int r = 0; r < display->height; r++)
 		{
 			for (int c = 0; c < display->width; c++)
@@ -272,6 +277,7 @@ drawCircle(10, display->height - 20, 7, getColourFromRGB(255, 0, 0), display);
 	{
 		remote_allowed = 0;
 		displayed = SETTINGS;
+		delay(SYS_INPUT_DELAY);
 		for (int r = 0; r < display->height; r++)
 		{
 			for (int c = 0; c < display->width; c++)

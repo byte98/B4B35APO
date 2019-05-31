@@ -1,0 +1,172 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100vw;
+}
+
+div#header{
+    width: 100vw;
+    text-align: center;
+    border-bottom: 1px solid black;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+div#subname >span.row{
+    display: block;
+}
+
+button#hide-header-btn{
+    font-size: 14pt;
+    border-radius: 5px;
+    color: var(--primary-colour);
+    margin: 10px;
+    margin-right: 30px;
+    float: right;
+}
+
+button#hide-header-btn:hover{
+    color: white;
+    background-color: var(--primary-colour);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button.btn{
+    border: none;
+    background-color: transparent;
+    padding: 5px;
+}
+
+div.alert{
+    padding: 10px;
+    margin: 5px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+div.alert.info{
+    color: var(--info-foreground);
+    background-color: var(--info-background);
+}
+
+div.alert.warning{
+    color: var(--warning-foreground);
+    background-color: var(--warning-background);
+}
+
+div.alert.error{
+    color: var(--error-foreground);
+    background-color: var(--error-background);
+}
+
+div#content > div.alert.info a{
+    color: var(--primary-colour);
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.icon-s{
+    font-size: 16pt;
+}
+
+h2{
+    font-size: 32pt;
+    font-weight: 100;
+    color: var(--primary-colour);
+}
+
+div#led-switch button.btn{
+    border: 1px solid var(--primary-colour);
+    padding: 10px;
+    color: var(--primary-colour);
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+div#led-switch button.btn:hover{
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: rgb(200, 233, 255);
+}
+
+div#led-switch button.btn.selected{
+    color: white;
+    background-color: var(--primary-colour);
+}
+
+div#led-switch{
+    margin: 10px;
+    border-bottom: 1px solid var(--primary-colour);
+}
+div#led-switch button.btn:nth-child(1){
+    margin-right: 0;
+    border-right: 0;
+}
+
+div#led-switch button.btn:nth-child(2){
+    margin-left: 0;
+    border-left: 0;
+}
+
+div.rgb-div{
+    margin: 10px;
+}
+
+h3{
+    font-weight: 300;
+    color: var(--primary-colour);
+    font-size: 18pt;
+}
+
+button.btn.primary
+{
+    border-radius: 5px;
+    border: 1px solid var(--primary-colour);
+    padding: 10px;
+    color: var(--primary-colour);
+}
+
+button.btn.primary:hover
+{
+    color: white;
+    background-color: var(--primary-colour);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+div.rgb-preview{
+    width: 200px;
+    height: 200px;
+    border: 5px solid black;
+    border-radius: 50%;
+}
+
+input.color-input
+{
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+    border: 1px solid black;
+    width: 160px;
+}
+
+div.settings{
+    display: flex;
+    flex-direction: row;
+}
+
+div.settings >div{
+    flex-grow: 1;
+}

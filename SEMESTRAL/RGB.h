@@ -101,6 +101,7 @@ int drawRGBScreen(display_t *display, uint16_t background, uint16_t foreground, 
 	{
 		reti = 0;
 		displayed = MAIN_MENU;
+		delay(SYS_INPUT_DELAY);
 		for (int r = 0; r < display->height; r++)
 		{
 			for (int c = 0; c < display->width; c++)
@@ -129,4 +130,34 @@ int drawRGBScreen(display_t *display, uint16_t background, uint16_t foreground, 
 	}
 	RGB_initiated = 1;
 	return reti;
+}
+
+void drawRGBScreenRemote(display_t *display, uint16_t background, uint16_t foreground, font_descriptor_t font)
+{
+	writeString("Remote control is", 50, 5, background, foreground, &font,2, display);
+	writeString("enabled. To change", 100, 5, background, foreground, &font,2, display);
+	writeString("colours, please visit", 150, 5, background, foreground, &font, 2, display);
+	writeString(RC_SERVER_DISPLAY, 200, 5, background, foreground, &font_winFreeSystem14x16, 2, display);
+	drawRectangle(0, display->height - 40, display->width, 2, foreground, display);
+
+	drawCircle(10, display->height - 20, 7, getColourFromRGB(255, 0, 0), display);
+	drawCircle_line(10, display->height - 20, 7, 2, foreground, display);
+	writeString("Back", display->height - 25, 20, background, foreground, &font_rom8x16, 1, display);
+
+	unsigned char *knobs_mem_base;
+	knobs_mem_base = map_phys_address(SPILED_REG_BASE_PHYS, SPILED_REG_SIZE, 0);
+	uint32_t value = *(volatile uint32_t*)(knobs_mem_base + SPILED_REG_KNOBS_8BIT_o);
+	if ((value >> 26) & 0x1)
+	{
+		displayed = MAIN_MENU;
+		for (int r = 0; r < display->height; r++)
+		{
+			for (int c = 0; c < display->width; c++)
+			{
+				display->data[r][c] = background;
+			}
+		}
+		delay(SYS_INPUT_DELAY);
+		return;
+	}
 }

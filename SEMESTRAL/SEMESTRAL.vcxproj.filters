@@ -16,6 +16,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Web">
+      <UniqueIdentifier>{ce06c347-855e-4a5f-8e86-a992654de2de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="font_prop14x16.c">
@@ -74,8 +77,23 @@
     <ClInclude Include="Settings.h">
       <Filter>Screens</Filter>
     </ClInclude>
+    <ClInclude Include="effects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="varlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="threads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
+    <None Include="index.html">
+      <Filter>Web</Filter>
+    </None>
+    <None Include="style.css">
+      <Filter>Web</Filter>
+    </None>
   </ItemGroup>
 </Project>

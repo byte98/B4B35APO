@@ -326,5 +326,5 @@ void displayColorRGB2(uint16_t colour)
 	uint16_t blue = ((0 | (colour >> 0)) & (0 | 0b00011111));
 	uint32_t regval = (0 | ((red << 16) | (green << 8) | (blue << 0)));
 
-	*(volatile uint16_t*)(phys_mem_base + SPILED_REG_LED_RGB2_o) = regval;
+	*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB2_o) = regval;
 }

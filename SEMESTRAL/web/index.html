@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Semestral project - Computer Architectures</title>
+    <link rel="stylesheet" type="text/css" href="./icons/line-awesome/css/line-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style/wheelcolorpicker.css">
+    <link rel="stylesheet" type="text/css" href="style/config.css">
+    <link rel="stylesheet" type="text/css" href="style/global.css">
+</head>
+<body>
+    <div id="header">
+        <h1>Semestral project</h1>
+        <div id="subname">
+            <span class="row">B4B35APO - Computer Architectures</span>
+            <span class="row">Jiří Škoda, <a href="mailto:skodaji4@fel.cvut.cz">skodaji4@fel.cvut.cz</a></span>
+            <span class="row">Faculty of Electrical Engineering, Czech Technical University in Prague</span>
+            <span class="row">Prague, 2019</span>
+        </div>
+    </div>
+    <div id="content">
+        <button title="Hide/show header" id="hide-header-btn" class="btn"><i class="la la-angle-double-down"></i></button>
+        <h2>RGB LED control</h2>
+        <div class="alert info">
+            <i class="la la-info-circle icon-s"></i>
+            Important links: 
+            <a target="_blank" href="https://gitlab.fel.cvut.cz/skodaji4/b4b35apo/tree/master/SEMESTRAL">source codes<i class="la la-external-link"></i></a>,
+            <a target="_blank" href="./dcumentation.pdf">documentation<i class="la la-external-link"></i></a>,
+            <a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0.html">license<i class="la la-external-link"></i></a>
+        </div>
+        <div class="alert warning">
+            <i class="la la-exclamation-triangle icon-s"></i>
+            <b>&nbsp;Remote control disabled</b>&nbsp;
+            Remote control is disabled. To enable remote control, allow it in device settings.
+        </div>
+        <div class="alert error">
+            <i class="la la-times-circle icon-s"></i>&nbsp;
+            <b>Connection lost</b>&nbsp;
+            Please, connect device to network.
+        </div>
+        <div>
+            <b><i class="la la-rss-square icon-s"></i>Connected device: </b>192.168.0.102 (176.12.13.14)
+        </div>
+        <div id="led-switch">
+            <button id="rgb-btn-1" target="#rgb1" class="btn selected">RGB LED 1</button><!--
+         --><button id="rgb-btn-2" target="#rgb2" class="btn">RGB LED 2</button>
+        </div>
+        <div id="rgb1" class="rgb-div">
+            <h3>RGB LED 1</h3>
+            <div class="settings">
+                <div class="colour-settings">
+                    <h4><i class="la la-eyedropper"></i>&nbsp;Colour settings</h4>
+                    <h5>Mode</h5>
+                    <label>
+                            <input type="radio" name="rgb1-mode" value="individual" checked />
+                            Individual
+                    </label>
+                    <label>
+                            <input type="radio" name="rgb1-mode" value="same" class="same-radio"/>
+                            Same for both
+                    </label>
+                    <br>
+                    <button class="btn primary"><i class="la la-copy"></i>&nbsp;Copy from RGB LED 2</button>
+                    <h5>Colour</h5>
+                    <input type="text" class="color-input" target="#rgb1-preview" placeholder="Click here to change colour"/><br>
+                    <label>
+                        <input type="checkbox" class="variable-color-check" target="#rgb1-preview">
+                        Variable
+                    </label>
+                    <br>
+                    <label class="antiphase-label">
+                        <input type="checkbox" class="antiphase-check">
+                        Antiphase than RGB LED 2
+                    </label>
+                    <div id="rgb1-preview" class="rgb-preview">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="blink-settings">
+                    <h4><i class="la la-adjust"></i>&nbsp;Blinking settings</h4>
+                </div>
+            </div>
+        </div>
+        <div id="rgb2" class="rgb-div">
+            <h3>RGB LED 2</h3>
+        </div>
+    </div>
+    <script src="script/jquery-3.4.1.min.js"></script>
+    <script src="script/jquery.wheelcolorpicker.min.js"></script>
+    <script src="script/script.js"></script>
+</body>
+</html>

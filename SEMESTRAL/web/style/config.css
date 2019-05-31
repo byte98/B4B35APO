@@ -1,0 +1,12 @@
+:root{
+    --primary-colour: rgb(0, 120, 201);
+
+    --info-foreground: rgb(0, 66, 165);
+    --info-background: rgb(195, 233, 255);
+
+    --warning-foreground: rgb(179, 137, 0);
+    --warning-background: rgb(248, 228, 163);
+
+    --error-foreground: rgb(83, 1, 1);
+    --error-background: rgb(255, 200, 200);
+}

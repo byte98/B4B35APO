@@ -21,6 +21,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include <pthread.h>
+
+#include "varlist.h"
 
 #include "mzapo_parlcd.h"
 #include "mzapo_phys.h"
@@ -58,6 +61,9 @@ int RGB2_blink_counter = 0;
 
 #include "screens.h"
 
+#include "effects.h"
+#include "threads.h"
+
 #define WIDTH 480
 #define HEIGHT 320
 
@@ -74,13 +80,6 @@ int RGB2_blink_counter = 0;
 
 
 #include<time.h>
-
-
-void delay(unsigned int mseconds)
-{
-	clock_t goal = mseconds + clock();
-	while (goal > clock()) {};
-}
 
 void displayMenu(display_t* display);
 
@@ -135,6 +134,7 @@ int main(int argc, char *argv[])
 		if (remote_allowed == 1)
 		{
 			writeString("REMOTE", 5, (LCD.width / 2) - 75, default_background, default_foreground, &font_winFreeSystem14x16, 2, &LCD);
+			writeString(RC_STATUS, 5, (LCD.width / 2) + 10, default_background, default_foreground, &font_winFreeSystem14x16, 2, &LCD);
 		}
 		
 		/*if (displayed = MAIN_MENU)
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 					LCD.data[r][c] = default_background;
 				}
 			}
-			sleep(1);
+			delay(SYS_INPUT_DELAY);
 		}
 		else if (((value >> 26) == 1 && displayed == MAIN_MENU && selected_menu == 1))
 		{
@@ -188,12 +188,12 @@ int main(int argc, char *argv[])
 				}
 			}
 			displayed = BLINKING;
-			sleep(1);
+			delay(SYS_INPUT_DELAY);
 		}
 		else if (((value >> 26) == 1 && displayed == MAIN_MENU && selected_menu == 2))
 		{
 			displayed = SETTINGS;
-			sleep(1);
+			delay(SYS_INPUT_DELAY);
 			settings_initiaited = 0;
 		}
 		if (displayed == MAIN_MENU)
@@ -202,11 +202,20 @@ int main(int argc, char *argv[])
 		}
 		else if (displayed == RGB)
 		{
-			drawRGBScreen(&LCD, default_background, default_foreground, default_font);
+			if (remote_allowed == 1)
+			{
+				drawRGBScreenRemote(&LCD, default_background, default_foreground, default_font);
+			}
+			else
+			{
+				drawRGBScreen(&LCD, default_background, default_foreground, default_font);
+			}
+			
 		}
 		else if (displayed == SETTINGS)
 		{
 			drawSettings(&LCD, default_background, default_foreground, default_font);
+			delay(SYS_INPUT_DELAY);
 		}
 		else if (displayed == TEXT_SETTINGS)
 		{
@@ -222,84 +231,138 @@ int main(int argc, char *argv[])
 		}
 		else if (displayed == BLINKING)
 		{
-			drawBlinking(&LCD, default_background, default_foreground, default_font);
-		}
-
-		if (start_set >= 1 && RGB1_blink != 0)
-		{
-			clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-			uint64_t delta_ms = (end.tv_sec - startRGB1.tv_sec) * 1000 + (end.tv_nsec - startRGB1.tv_nsec) / 1000;
-
-			if (delta_ms >= RGB1_blink)
+			if (remote_allowed == 1)
 			{
-				
-				if (RGB1_inBlink == 1)
+				drawBlinkingRemote(&LCD, default_background, default_foreground, default_font);
+			}
+			else
+			{
+				drawBlinking(&LCD, default_background, default_foreground, default_font);
+			}
+
+		}
+		if (remote_allowed == 0)
+		{
+			if (start_set >= 2 && RGB1_blink != 0)
+			{
+
+				clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+				uint64_t delta_ms = (((end.tv_sec - startRGB1.tv_sec) * 1000 + (end.tv_nsec - startRGB1.tv_nsec) / 1000) * 1000);
+				RGB1_blink_counter += delta_ms;
+				if (RGB1_blink_counter < 0)
 				{
-					displayColorRGB1(RGB1_colour);
-					RGB1_inBlink = 0;
+					RGB1_blink_counter = 0;
+				}
+
+				if (RGB1_blink_counter >= RGB1_blink)
+				{
+
+					if (RGB1_inBlink == 1)
+					{
+						displayColorRGB1(RGB1_colour);
+						RGB1_inBlink = 0;
+						RGB1_blink_counter = 0;
+					}
+					else if (RGB1_inBlink == 0)
+					{
+						displayColorRGB1(getColourFromRGB(0, 0, 0));
+						RGB1_inBlink = 1;
+						RGB1_blink_counter = 0;
+					}
+
+					clock_gettime(CLOCK_MONOTONIC_RAW, &startRGB1);
 				}
 				else
 				{
-					displayColorRGB1(getColourFromRGB(0, 0, 0));
-					RGB1_inBlink = 1;
+					if (RGB1_inBlink == 1)
+					{
+						displayColorRGB1(RGB1_colour);
+					}
+					else if (RGB1_inBlink == 0)
+					{
+						displayColorRGB1(getColourFromRGB(0, 0, 0));
+					}
 				}
-				clock_gettime(CLOCK_MONOTONIC_RAW, &startRGB2);
 			}
 			else
 			{
 				displayColorRGB1(RGB1_colour);
 			}
-		}
-		else
-		{
-			displayColorRGB1(RGB1_colour);
-		}
-		if (start_set >= 2 && RGB2_blink != 0)
-		{
-	
-			clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-			uint64_t delta_ms = (((end.tv_sec - startRGB2.tv_sec) * 1000 + (end.tv_nsec - startRGB2.tv_nsec) / 1000) * 1000);
-			RGB2_blink_counter += delta_ms;
-			if (RGB2_blink_counter < 0)
+			if (start_set >= 2 && RGB2_blink != 0)
 			{
-				RGB2_blink_counter = 0;
-			}
 
-			if (RGB2_blink_counter >= RGB2_blink)
-			{
-				
-				if (RGB2_inBlink == 1)
+				clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+				uint64_t delta_ms = (((end.tv_sec - startRGB2.tv_sec) * 1000 + (end.tv_nsec - startRGB2.tv_nsec) / 1000) * 1000);
+				RGB2_blink_counter += delta_ms;
+				if (RGB2_blink_counter < 0)
 				{
-					displayColorRGB2(RGB2_colour);
-					RGB2_inBlink = 0;
 					RGB2_blink_counter = 0;
 				}
-				else if (RGB2_inBlink == 0)
+
+				if (RGB2_blink_counter >= RGB2_blink)
 				{
-					displayColorRGB2(getColourFromRGB(0, 0, 0));
-					RGB2_inBlink = 1;
-					RGB2_blink_counter = 0;
+
+					if (RGB2_inBlink == 1)
+					{
+						displayColorRGB2(RGB2_colour);
+						RGB2_inBlink = 0;
+						RGB2_blink_counter = 0;
+					}
+					else if (RGB2_inBlink == 0)
+					{
+						displayColorRGB2(getColourFromRGB(0, 0, 0));
+						RGB2_inBlink = 1;
+						RGB2_blink_counter = 0;
+					}
+
+					clock_gettime(CLOCK_MONOTONIC_RAW, &startRGB2);
 				}
-				
-				clock_gettime(CLOCK_MONOTONIC_RAW, &startRGB2);
+				else
+				{
+					if (RGB2_inBlink == 1)
+					{
+						displayColorRGB2(RGB2_colour);
+					}
+					else if (RGB2_inBlink == 0)
+					{
+						displayColorRGB2(getColourFromRGB(0, 0, 0));
+					}
+				}
 			}
 			else
 			{
-				if (RGB2_inBlink == 1)
-				{
-					displayColorRGB2(RGB2_colour);
-				}
-				else if (RGB2_inBlink == 0)
-				{
-					displayColorRGB2(getColourFromRGB(0, 0, 0));
-				}
+				displayColorRGB2(RGB2_colour);
 			}
 		}
-		else
+		else if (remote_allowed == 1)
 		{
-			displayColorRGB2(RGB2_colour);
+			if (RC_RGB1_THREAD_RUN == RC_FALSE)
+			{				
+				pthread_create(&RC_RGB1_THREAD, NULL, RGB1_display, NULL);
+				RC_RGB1_THREAD_RUN = RC_TRUE;
+			}
+			if (RC_RGB2_THREAD_RUN == RC_FALSE)
+			{
+				
+				pthread_create(&RC_RGB2_THREAD, NULL, RGB2_display, NULL);
+				RC_RGB2_THREAD_RUN = RC_TRUE;
+			}
+			
 		}
 
+		if (remote_allowed == 0 && RC_RGB1_THREAD_RUN == RC_TRUE)
+		{
+			pthread_cancel(RC_RGB1_THREAD);
+			RC_RGB1_THREAD_RUN = RC_FALSE;
+			RC_RGB1_BLICK_MODE = RC_BLICK_MODE_NONE;
+		}
+
+		if (remote_allowed == 0 && RC_RGB2_THREAD_RUN == RC_TRUE)
+		{
+			pthread_cancel(RC_RGB2_THREAD);
+			RC_RGB2_THREAD_RUN = RC_FALSE;
+			RC_RGB2_BLICK_MODE = RC_BLICK_MODE_NONE;
+		}
 		showDisplay(&LCD, parlcd_mem_base);
 		free(time);
 		free(date);

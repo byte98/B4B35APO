@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blinking.h" />
+    <ClInclude Include="effects.h" />
     <ClInclude Include="font_types.h" />
     <ClInclude Include="mzapo_parlcd.h" />
     <ClInclude Include="mzapo_phys.h" />
@@ -134,10 +135,14 @@
     <ClInclude Include="screens.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="shapes.h" />
+    <ClInclude Include="threads.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="varlist.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="index.html" />
     <None Include="Makefile" />
+    <None Include="style.css" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
