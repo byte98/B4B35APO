@@ -23,7 +23,12 @@
 #include <time.h>
 #include <pthread.h>
 
+
+
+
 #include "varlist.h"
+
+
 
 #include "mzapo_parlcd.h"
 #include "mzapo_phys.h"
@@ -54,6 +59,7 @@ int RGB2_inBlink = 0;
 int RGB1_blink_counter = 0;
 int RGB2_blink_counter = 0;
 //#include "wArial_44.c"
+#include "networking.h"
 
 
 #include "utils.h"
@@ -93,6 +99,8 @@ int main(int argc, char *argv[])
 	clock_gettime(CLOCK_MONOTONIC_RAW, &startRGB2);
 	start_set = 3;
 
+	connect_remote();
+	getIP();
 
 	unsigned char *parlcd_mem_base;
 	parlcd_mem_base = map_phys_address(PARLCD_REG_BASE_PHYS, PARLCD_REG_SIZE, 0);

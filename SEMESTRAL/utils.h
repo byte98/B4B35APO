@@ -4,8 +4,17 @@
 #include <stdint.h>
 #include <time.h>
 #include <unistd.h>
-#include "utils.h"
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
+
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <ifaddrs.h>
+
+#define NI_MAXHOST 1025
+#define NI_MAXSERV 32
 
 #define GET_RED(val) (((val) >> 16) & 0xff)
 #define GET_GREEN(val) (((val) >> 8) & 0xff)
@@ -328,3 +337,6 @@ void displayColorRGB2(uint16_t colour)
 
 	*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB2_o) = regval;
 }
+
+
+

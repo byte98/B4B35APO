@@ -131,6 +131,7 @@
     <ClInclude Include="mzapo_parlcd.h" />
     <ClInclude Include="mzapo_phys.h" />
     <ClInclude Include="mzapo_regs.h" />
+    <ClInclude Include="networking.h" />
     <ClInclude Include="RGB.h" />
     <ClInclude Include="screens.h" />
     <ClInclude Include="Settings.h" />

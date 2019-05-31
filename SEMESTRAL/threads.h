@@ -4,6 +4,7 @@ void *RGB1_display(void *vargp)
 	phys_mem_base = map_phys_address(SPILED_REG_BASE_PHYS, SPILED_REG_SIZE, 0);
 	if (RC_RGB1_MODE == RC_MODE_VARIABLE)
 	{
+
 		RC_RGB1_COLOUR = (255 << 16);
 
 		while (RC_RGB1_MODE == RC_MODE_VARIABLE)
@@ -16,7 +17,6 @@ void *RGB1_display(void *vargp)
 	else if (RC_RGB1_MODE == RC_MODE_VARIABLE_OPPOSITE)
 	{
 		RC_RGB1_COLOUR = getOppositeColour(RC_RGB1_COLOUR);
-		
 		while (RC_RGB1_MODE == RC_MODE_VARIABLE_OPPOSITE)
 		{
 			*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB1_o) = RC_RGB1_COLOUR;
@@ -25,8 +25,34 @@ void *RGB1_display(void *vargp)
 	}
 	else if (RC_RGB1_MODE == RC_MODE_STATIC)
 	{
-		*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB1_o) = RC_RGB1_COLOUR;
+		if (RC_RGB1_BLICK_MODE == RC_BLICK_MODE_NONE)
+		{
+			*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB1_o) = RC_RGB1_COLOUR;
+		}
+		else if (RC_RGB1_BLICK_MODE == RC_BLICK_MODE_SIMPLE)
+		{
+			while (RC_RGB1_MODE == RC_MODE_STATIC && RC_RGB1_BLICK_MODE == RC_BLICK_MODE_SIMPLE)
+			{
+				*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB1_o) = RC_RGB1_COLOUR;
+				delay(RC_RGB1_BLICK_LIGHT);
+				*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB1_o) = 0;
+				delay(RC_RGB1_BLICK_DARK);
+			}
+		}
+		else if (RC_RGB1_BLICK_MODE == RC_BLICK_MODE_PHASE)
+		{
+			delay(RC_RGB1_BLICK_PHASE);
+			while (RC_RGB1_MODE == RC_MODE_STATIC && RC_RGB1_BLICK_MODE == RC_BLICK_MODE_PHASE)
+			{
+				*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB1_o) = RC_RGB1_COLOUR;
+				delay(RC_RGB1_BLICK_LIGHT);
+				*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB1_o) = 0;
+				delay(RC_RGB1_BLICK_DARK);
+			}
+		}
+
 	}
+
 }
 
 void *RGB2_display(void *vargp)
@@ -70,22 +96,27 @@ void *RGB2_display(void *vargp)
 				delay(RC_RGB2_BLICK_DARK);
 			}
 		}
+		else if (RC_RGB2_BLICK_MODE == RC_BLICK_MODE_PHASE)
+		{
+			delay(RC_RGB2_BLICK_PHASE);
+			while (RC_RGB2_MODE == RC_MODE_STATIC && RC_RGB2_BLICK_MODE == RC_BLICK_MODE_PHASE)
+			{
+				*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB2_o) = RC_RGB2_COLOUR;
+				delay(RC_RGB2_BLICK_LIGHT);
+				*(volatile uint32_t*)(phys_mem_base + SPILED_REG_LED_RGB2_o) = 0;
+				delay(RC_RGB2_BLICK_DARK);
+			}
+		}
 
 	}
 }
 
 void *load_remote(void* vargp)
 {
-	if (remote_allowed == 1)
-	{
-
-	}
+	
 }
 
-void connect()
-{
 
-}
 
 void delay(int miliseconds)
 {

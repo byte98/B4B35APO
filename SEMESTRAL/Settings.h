@@ -262,6 +262,7 @@ drawCircle(10, display->height - 20, 7, getColourFromRGB(255, 0, 0), display);
 	else if ((value >> 26) == 1 && selected_remote == 0)
 	{
 		remote_allowed = 1;
+		update_remote_status();
 		displayed = SETTINGS;
 		delay(SYS_INPUT_DELAY);
 		for (int r = 0; r < display->height; r++)
@@ -276,6 +277,7 @@ drawCircle(10, display->height - 20, 7, getColourFromRGB(255, 0, 0), display);
 	else if ((value >> 26) == 1 && selected_remote == 1)
 	{
 		remote_allowed = 0;
+		update_remote_status();
 		displayed = SETTINGS;
 		delay(SYS_INPUT_DELAY);
 		for (int r = 0; r < display->height; r++)

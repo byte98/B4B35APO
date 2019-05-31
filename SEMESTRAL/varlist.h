@@ -7,6 +7,7 @@
 
 #define RC_BLICK_MODE_NONE 0
 #define RC_BLICK_MODE_SIMPLE 1
+#define RC_BLICK_MODE_PHASE 2
 
 #define RC_FALSE 0
 #define RC_TRUE 1
@@ -19,6 +20,7 @@ pthread_t RC_RGB1_THREAD;
 int RC_RGB1_BLICK_MODE = RC_BLICK_MODE_NONE;
 int RC_RGB1_BLICK_LIGHT = 1000;
 int RC_RGB1_BLICK_DARK = 500;
+int RC_RGB1_BLICK_PHASE = 0;
 
 int RC_RGB2_MODE = RC_MODE_STATIC;
 int RC_RGB2_DELAY = 10;
@@ -28,11 +30,14 @@ pthread_t RC_RGB2_THREAD;
 int RC_RGB2_BLICK_MODE = RC_BLICK_MODE_SIMPLE;
 int RC_RGB2_BLICK_LIGHT = 1000;
 int RC_RGB2_BLICK_DARK = 500;
+int RC_RGB2_BLICK_PHASE = 0;
 
-char* RC_STATUS = "UP/DOWN";
+char* RC_STATUS = " ";
 
 #define RC_SERVER "cvut.skodaj.cz"
 #define RC_SERVER_CONNECT "/apo/api/connect.php"
+#define RC_SERVER_UPDATE_REMOTE "/apo/api/enable.php"
+#define RC_SERVER_GET_CONFIG "/apo/api/config.php"
 #define RC_SERVER_DISPLAY "http://cvut.skodaj.cz/apo"
 
 #define SYS_INPUT_DELAY 200
